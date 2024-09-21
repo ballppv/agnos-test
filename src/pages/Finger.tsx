@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const FingerPage = () => {
+const Finger = () => {
   const navigate = useNavigate()
 
   const handleBack = () => {
@@ -10,9 +10,9 @@ const FingerPage = () => {
 
   return (
     <div>
-      <button onClick={handleBack}>Go to About Page</button>
+      <button onClick={handleBack}>Back</button>
     </div>
   )
 }
 
-export default FingerPage
+export default Finger

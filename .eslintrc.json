@@ -1,6 +1,6 @@
 {
   "extends": ["plugin:@typescript-eslint/recommended"],
-  "plugins": ["@typescript-eslint", "unused-imports", "simple-import-sort"],
+  "plugins": ["@typescript-eslint", "unused-imports", "import", "simple-import-sort"],
   "rules": {
     "@next/next/no-html-link-for-pages": "off",
     "@next/next/no-img-element": "off",
