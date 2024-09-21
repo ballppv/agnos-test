@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "eslint:recommend",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
-  ],
+  "extends": ["plugin:@typescript-eslint/recommended"],
   "plugins": ["@typescript-eslint", "unused-imports", "simple-import-sort"],
   "rules": {
     "@next/next/no-html-link-for-pages": "off",
