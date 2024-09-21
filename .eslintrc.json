@@ -1,0 +1,64 @@
+{
+  "extends": [
+    "eslint:recommend",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["@typescript-eslint", "unused-imports", "simple-import-sort"],
+  "rules": {
+    "@next/next/no-html-link-for-pages": "off",
+    "@next/next/no-img-element": "off",
+    "react/no-unescaped-entities": "off",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          // Packages `react` related packages come first.
+          ["^react", "^next(/.*|$)", "^@?\\w"],
+          ["^ui"],
+          // Side effect imports.
+          ["^\\u0000"],
+          // Parent imports. Put `..` last.
+          ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
+          // Core BTA App
+          ["^(@/core)(.*|$)"],
+          // Other relative imports. Put same-folder imports and `.` last.
+          ["^(@)(/.*|$)"],
+          ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
+          ["^\\.\\./(?=.*/*.interface)", "^\\./(?=.*/*.interface)"],
+          // Style imports.
+          ["^.+\\.?(css)$"]
+        ]
+      }
+    ],
+    "simple-import-sort/exports": "error",
+    "no-restricted-exports": "off",
+    // "@typescript-eslint/naming-convention": [
+    //   "error",
+    //   { "selector": "enumMember", "format": ["UPPER_CASE"] },
+    //   {
+    //     "selector": ["interface", "typeAlias", "typeParameter"],
+    //     "format": ["PascalCase"]
+    //   }
+    // ],
+    "@typescript-eslint/no-unused-expressions": [
+      "error",
+      {
+        "allowShortCircuit": true,
+        "allowTernary": true
+      }
+    ]
+  }
+}

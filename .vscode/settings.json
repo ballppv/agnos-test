@@ -1,0 +1,74 @@
+{
+    "cSpell.words": [
+      "tailwindCSS",
+      "tailwind"
+    ],
+    "editor.tabSize": 2,
+    "editor.detectIndentation": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": ["source.addMissingImports", "source.fixAll.eslint"],
+    "search.exclude": {
+      "node_modules": true,
+      ".yarn": true,
+      "yarn.lock": true,
+      "package-lock.json": true,
+      ".pnp.*": true,
+      "**.svg": true,
+      "**/.yarn": true,
+      "**/.pnp.*": true
+    },
+    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+    "[markdown]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[scss]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[env]": {
+      "editor.defaultFormatter": "IronGeek.vscode-env"
+    },
+    "[json][jsonc]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "workbench.colorCustomizations": {
+      "titleBar.activeForeground": "#fff",
+      "titleBar.inactiveForeground": "#333",
+      "titleBar.activeBackground": "#3B82F6",
+      "titleBar.inactiveBackground": "#3B82F680",
+      "sideBar.background": "#333",
+      "sideBarSectionHeader.foreground": "#3B82F6",
+      "list.activeSelectionBackground": "#3B82F680",
+      "list.activeSelectionForeground": "#fff",
+      "list.inactiveSelectionBackground": "#3B82F680"
+    },
+    "[prisma]": {
+      "editor.defaultFormatter": "Prisma.prisma"
+    },
+    "prettier.useEditorConfig": false,
+    "prettier.configPath": ".prettierrc",
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true
+    },
+    "files.watcherExclude": {
+      "**/node_modules/*/**": true,
+    },
+    "tailwindCSS.experimental.classRegex": [
+      ["(?:twMerge|tw|twJoin)\\(([^\\);]*)[\\);]", "[`'\"`]([^'\"`,;]*)[`'\"`]"]
+    ]
+  }
+  
