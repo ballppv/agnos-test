@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { AbsDataType } from 'utilities/mockUpData'
 
-interface DiagramProps {
+interface AbsDiagramProps {
   data: AbsDataType[]
   baseImage: string
 }
 
-const AbsDiagram = ({ data, baseImage }: DiagramProps) => {
+const AbsDiagram = ({ data, baseImage }: AbsDiagramProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const svgRef = useRef<SVGSVGElement | null>(null)
   const [selectedParts, setSelectedParts] = useState<number[]>([])
@@ -63,14 +63,13 @@ const AbsDiagram = ({ data, baseImage }: DiagramProps) => {
   // fx: handle the click event on a shape
   const handleShapeClick = (id: number) => {
     if (id === 8) {
-      // toggle select all or clear all
+      // toggle select all and clear all
       if (selectedParts.length === data.length - 1) {
         setSelectedParts([])
       } else {
         setSelectedParts(data.filter((part) => part.id !== 8).map((part) => part.id)) // id 8 is the select all, so don't have to get it in the array
       }
     } else {
-      // toggle the select of individual parts
       setSelectedParts((prevSelected) =>
         prevSelected.includes(id)
           ? prevSelected.filter((partId) => partId !== id)
@@ -91,7 +90,14 @@ const AbsDiagram = ({ data, baseImage }: DiagramProps) => {
       }}
     >
       {/* base image */}
-      <img src={baseImage} alt="Base" style={{ width: '100%', height: '100%' }} />
+      <img
+        src={baseImage}
+        alt="Base"
+        style={{
+          width: '100%',
+          height: '100%',
+        }}
+      />
 
       {/* display part images based on selected state */}
       {data.map((part) => {
@@ -157,9 +163,6 @@ const AbsDiagram = ({ data, baseImage }: DiagramProps) => {
                         )
                     : ''
                 } // change percentage paths to responsive paths
-                className={`voronoi-cell ${
-                  selectedParts.includes(shape.id) ? 'selected' : ''
-                } ${hoveredPart === shape.id ? 'hovered' : ''}`}
                 onMouseEnter={() => setHoveredPart(shape.id)}
                 onMouseLeave={() => setHoveredPart(null)}
                 onClick={() => handleShapeClick(shape.id)}
@@ -176,9 +179,6 @@ const AbsDiagram = ({ data, baseImage }: DiagramProps) => {
                 cx={(parseFloat(shape.shape.cx ?? '0') / 100) * dimensions.width}
                 cy={(parseFloat(shape.shape.cy ?? '0') / 100) * dimensions.height}
                 r={(parseFloat(shape.shape.r ?? '0') / 100) * dimensions.width}
-                className={`voronoi-cell ${
-                  selectedParts.includes(shape.id) ? 'selected' : ''
-                } ${hoveredPart === shape.id ? 'hovered' : ''}`}
                 onMouseEnter={() => setHoveredPart(shape.id)}
                 onMouseLeave={() => setHoveredPart(null)}
                 onClick={() => handleShapeClick(shape.id)}
