@@ -1,3 +1,4 @@
+// Abs Images
 import epigastriumText from '../assets/images/abs/epigastrium-active.png'
 import epigastriumPart from '../assets/images/abs/epigastrium-highlight.png'
 import llqText from '../assets/images/abs/llq-active.png'
@@ -14,7 +15,16 @@ import umbilicusText from '../assets/images/abs/umbilicus-active.png'
 import umbilicusPart from '../assets/images/abs/umbilicus-highlight.png'
 import allOverPart from '../assets/images/abs/all-over-highlight.png'
 
-type shapeType = {
+// Finger Images
+import dipText from '../assets/images/finger/dip-active.png'
+import dipPart from '../assets/images/finger/dip-highlight.png'
+import mcpText from '../assets/images/finger/mcp-active.png'
+import mcpPart from '../assets/images/finger/mcp-highlight.png'
+import pipText from '../assets/images/finger/pip-active.png'
+import pipPart from '../assets/images/finger/pip-highlight.png'
+import otherHighlight from '../assets/images/finger/others-highlight.png'
+
+type ShapeType = {
   type: 'polygon' | 'circle'
   path?: string
   cx?: string
@@ -27,7 +37,15 @@ export interface AbsDataType {
   part: string
   partImage: string
   textImage: string
-  shape: shapeType
+  shape: ShapeType
+}
+
+export interface FingerDataType {
+  id: number
+  part: string
+  partImage: string
+  textImage: string
+  shapes: ShapeType[]
 }
 
 export const absData: AbsDataType[] = [
@@ -112,5 +130,56 @@ export const absData: AbsDataType[] = [
       type: 'polygon',
       path: 'M32%,113% L64%,113% L64%,103% L32%,103% Z',
     },
+  },
+]
+
+export const fingerData: FingerDataType[] = [
+  {
+    id: 1,
+    part: 'ข้อนิ้วส่วนปลาย',
+    partImage: dipPart,
+    textImage: dipText,
+    shapes: [
+      {
+        type: 'polygon',
+        path: 'M32%,113% L64%,113% L64%,103% L32%,103% Z',
+      },
+    ],
+  },
+  {
+    id: 2,
+    part: 'ข้อโคนนิ้วมือ',
+    partImage: mcpPart,
+    textImage: mcpText,
+    shapes: [
+      {
+        type: 'polygon',
+        path: 'M32%,113% L64%,113% L64%,103% L32%,103% Z',
+      },
+    ],
+  },
+  {
+    id: 2,
+    part: 'ข้อนิ้วมือส่วนต้น',
+    partImage: pipPart,
+    textImage: pipText,
+    shapes: [
+      {
+        type: 'polygon',
+        path: 'M32%,113% L64%,113% L64%,103% L32%,103% Z',
+      },
+    ],
+  },
+  {
+    id: 3,
+    part: 'all',
+    partImage: otherHighlight,
+    textImage: otherHighlight,
+    shapes: [
+      {
+        type: 'polygon',
+        path: 'M32%,113% L64%,113% L64%,103% L32%,103% Z',
+      },
+    ],
   },
 ]

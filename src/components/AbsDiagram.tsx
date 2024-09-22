@@ -6,7 +6,7 @@ interface DiagramProps {
   baseImage: string
 }
 
-const Diagram = ({ data, baseImage }: DiagramProps) => {
+const AbsDiagram = ({ data, baseImage }: DiagramProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const svgRef = useRef<SVGSVGElement | null>(null)
   const [selectedParts, setSelectedParts] = useState<number[]>([])
@@ -193,4 +193,4 @@ const Diagram = ({ data, baseImage }: DiagramProps) => {
   )
 }
 
-export default Diagram
+export default AbsDiagram
