@@ -7,9 +7,6 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    // fontFamily: {
-    //   primaryFont: [''],
-    // },
     extend: {
       screens: {
         sm: '320px',
