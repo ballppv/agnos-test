@@ -1,7 +1,11 @@
-import type { Config } from 'tailwindcss'
+import { Config } from 'tailwindcss'
 
 const config: Config = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
     // fontFamily: {
     //   primaryFont: [''],
@@ -44,40 +48,10 @@ const config: Config = {
       },
       colors: {
         primary: {
-          DEFAULT: '#df082a',
-          'sompo-red': '#df082a',
+          DEFAULT: '#3B82F6',
+          sub: '##0951c6',
           white: '#ffffff',
-          'light-platinum': '#eff4f5',
-          'light-red': '#fff1f1',
           black: '#000000',
-        },
-        secondary: {
-          dark: {
-            red: '#9e2222',
-            platinum: '#94989c',
-          },
-          medium: {
-            red: '#eeaaaa',
-            platinum: '#c8ced2',
-          },
-        },
-        tertiary: {
-          dark: {
-            purple: '#874ca9',
-            orange: '#af6a19',
-          },
-          medium: {
-            purple: '#a780d1',
-            orange: '#fc9e31',
-          },
-          light: {
-            purple: '#d2bdff',
-            orange: '#ffc47f',
-          },
-        },
-        base: {
-          primary: '#ffffff',
-          secondary: '#181819',
         },
         grey: {
           50: '#e8e8e8',
@@ -121,31 +95,32 @@ const config: Config = {
           },
         },
         divider: {
-          'light-red': '#facbd5',
           grey: {
             1: '#e8e8e8',
             2: '#d1d1d1',
           },
-          red: '#ec2c53',
-        },
-        deco: {
-          yellow: '#fbbe4b',
-          pink: '#ffebef',
-          red: '#9B2222',
         },
       },
       textColor: {
         primary: '#181819',
+        brand: '#3B82F6',
+        'brand-sub': '#0951c6',
+        'brand-hover': '#003d99',
+        'brand-active': '#062d73',
         secondary: '#2f2f30',
         sub: '#747475',
         white: '#ffffff',
-        red: '#DF082A',
         placeholder: '#a3a3a3',
         disabled: '#bababa',
-        'sompo-primary': '#df082a',
       },
       backgroundColor: {
         white: '#FFFFFF',
+        brand: '#3B82F6',
+        'brand-sub': '#0951c6',
+        'brand-hover': '#003d99',
+        'brand-active': '#062d73',
+        hover: '#e6f0ff',
+        active: '#cce0ff',
         red: {
           DEFAULT: '#DF082A',
           50: '#fde3e8',
@@ -159,7 +134,6 @@ const config: Config = {
           800: '#500716',
           950: '#2a040b',
         },
-        'light-red': '#fde3e8',
         grey: {
           1: '#f8f8f8',
           2: '#f4f4f4',
@@ -167,9 +141,12 @@ const config: Config = {
           pink: '#f2eeee',
         },
         disabled: '#e8e8e8',
-        'custom-1': 'rgba(241, 234, 255, 0.56)',
       },
       borderColor: {
+        brand: '#3B82F6',
+        'brand-sub': '#0951c6',
+        'brand-hover': '#003d99',
+        'brand-active': '#062d73',
         grey: {
           DEFAULT: '#d1d1d1',
           1: '#e8e8e8',
