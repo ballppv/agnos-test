@@ -1,10 +1,9 @@
-import { Config } from 'tailwindcss'
-
-const config: Config = {
+module.exports = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './public/index.html',
   ],
   theme: {
     extend: {
@@ -50,47 +49,6 @@ const config: Config = {
           white: '#ffffff',
           black: '#000000',
         },
-        grey: {
-          50: '#e8e8e8',
-          100: '#d1d1d1',
-          200: '#bababa',
-          300: '#a3a3a3',
-          400: '#8b8b8c',
-          500: '#747475',
-          600: '#5d5d5e',
-          700: '#464647',
-          800: '#2f2f30',
-          950: '#181819',
-        },
-        red: {
-          50: '#fde3e8',
-          100: '#facbd5',
-          200: '#f593a7',
-          300: '#f1607d',
-          400: '#ec2c53',
-          500: '#cb1237',
-          600: '#a40f2c',
-          700: '#7a0b21',
-          800: '#500716',
-          950: '#2a040b',
-        },
-        stat: {
-          green: {
-            100: '#e5f9ef',
-            300: '#b2eed0',
-            500: '#00c661',
-          },
-          yellow: {
-            100: '#fff8e9',
-            300: '#feeabe',
-            500: '#fbba27',
-          },
-          red: {
-            100: '#fde6ec',
-            300: '#f8b5c5',
-            500: '#e9083f',
-          },
-        },
         divider: {
           grey: {
             1: '#e8e8e8',
@@ -118,25 +76,6 @@ const config: Config = {
         'brand-active': '#062d73',
         hover: '#e6f0ff',
         active: '#cce0ff',
-        red: {
-          DEFAULT: '#DF082A',
-          50: '#fde3e8',
-          100: '#facbd5',
-          200: '#f593a7',
-          300: '#f1607d',
-          400: '#ec2c53',
-          500: '#cb1237',
-          600: '#a40f2c',
-          700: '#7a0b21',
-          800: '#500716',
-          950: '#2a040b',
-        },
-        grey: {
-          1: '#f8f8f8',
-          2: '#f4f4f4',
-          3: '#e8e8e8',
-          pink: '#f2eeee',
-        },
         disabled: '#e8e8e8',
       },
       borderColor: {
@@ -154,5 +93,3 @@ const config: Config = {
   },
   plugins: [],
 }
-
-export default config
