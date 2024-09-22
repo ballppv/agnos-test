@@ -1,6 +1,9 @@
 import React from 'react'
 import MainButton from 'components/MainButton'
 import tw from 'utilities/tw'
+import defaultFinger from 'assets/images/finger/default-finger.png'
+import { fingerData } from 'utilities/mockUpData'
+import FingerDiagram from 'components/Diagram/FingerDiagram'
 
 const classes = {
   container: tw(`flex flex-col gap-6 md:gap-8`),
@@ -15,17 +18,17 @@ const classes = {
 const Finger = () => {
   return (
     <div className={classes.container}>
-      <MainButton text="Back" />
+      <MainButton href="/abs" text="Back" />
 
       <div className={classes.subContainer}>
         <div className={classes.contentSection}>
           <div className={classes.title}>จุดไหนที่คุณปวดนิ้วมากที่สุด ?</div>
           <div className={classes.fingerVD}>
-            {/* <Diagram data={fingerData} baseImage={defaultFinger} /> */}
+            <FingerDiagram data={fingerData} baseImage={defaultFinger} />
           </div>
         </div>
 
-        <MainButton href="finger" text="ต่อไป" styles={classes.nextBtn} />
+        <MainButton href="abs" text="ต่อไป" styles={classes.nextBtn} />
       </div>
     </div>
   )

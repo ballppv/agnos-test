@@ -1,9 +1,9 @@
 import React from 'react'
-import MainButton from 'components/MainButton'
-import tw from 'utilities/tw'
-import AbsDiagram from 'components/AbsDiagram'
-import { absData } from 'utilities/mockUpData'
-import defaultAbs from 'assets/images/abs/default-abs.png'
+import MainButton from '../components/MainButton'
+import tw from '../utilities/tw'
+import AbsDiagram from '../components/Diagram/AbsDiagram'
+import { absData } from '../utilities/mockUpData'
+import defaultAbs from '../assets/images/abs/default-abs.png'
 
 const classes = {
   container: tw(`flex flex-col gap-6 md:gap-8`),
@@ -18,7 +18,7 @@ const classes = {
 const Abs = () => {
   return (
     <div className={classes.container}>
-      <MainButton text="Back" />
+      <MainButton href="/" text="Back" />
 
       <div className={classes.subContainer}>
         <div className={classes.contentSection}>
@@ -28,7 +28,7 @@ const Abs = () => {
           </div>
         </div>
 
-        <MainButton href="finger" text="ต่อไป" styles={classes.nextBtn} />
+        <MainButton href="/finger" text="ต่อไป" styles={classes.nextBtn} />
       </div>
     </div>
   )

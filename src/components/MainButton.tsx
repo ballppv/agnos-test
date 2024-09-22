@@ -5,7 +5,7 @@ import tw from 'utilities/tw'
 import ButtonBorder from '../components/ButtonBorder'
 
 interface MainButtonProps {
-  href?: string
+  href: string
   text: string
   styles?: string
 }
@@ -24,9 +24,7 @@ const MainButton = ({ href, text, styles }: MainButtonProps) => {
   const navigate = useNavigate()
 
   const handleClick = () => {
-    if (text === 'Back') return navigate('/')
-
-    navigate(`/${href}`)
+    navigate(href)
   }
 
   return (
