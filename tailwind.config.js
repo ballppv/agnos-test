@@ -1,0 +1,95 @@
+module.exports = {
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './public/index.html',
+  ],
+  theme: {
+    extend: {
+      screens: {
+        sm: '320px',
+        mobile: '375px',
+        '2sm': '425px',
+        '3sm': '500px',
+        md: '768px',
+        '2md': '900px',
+        lg: '1024px',
+        '3lg': '1200px',
+        '4lg': '1300px',
+        '5lg': '1400px',
+        xl: '1440px',
+        '2xl': '1600px',
+        '4xl': '1920px',
+      },
+      fontSize: {
+        '3xs': ['8px', '12px'],
+        '2xs': ['10px', '12px'],
+        xs: ['12px', '18px'],
+        sm: ['14px', '21px'],
+        md: ['16px', '24px'],
+        '2md': ['18px', '27px'],
+        lg: ['20px', '30px'],
+        xl: ['24px', '36px'],
+        '2xl': ['28px', '34px'],
+      },
+      maxWidth: {
+        'maximum-web': '1920px',
+      },
+      animation: {
+        'slide-down': 'slideDown 0.5s ease-in-out',
+      },
+      boxShadow: {
+        'custom-1': '0px 0px 32px 0px rgba(148, 148, 148, 0.24)',
+      },
+      colors: {
+        primary: {
+          DEFAULT: '#3B82F6',
+          sub: '##0951c6',
+          white: '#ffffff',
+          black: '#000000',
+        },
+        divider: {
+          grey: {
+            1: '#e8e8e8',
+            2: '#d1d1d1',
+          },
+        },
+      },
+      textColor: {
+        primary: '#181819',
+        brand: '#3B82F6',
+        'brand-sub': '#0951c6',
+        'brand-hover': '#003d99',
+        'brand-active': '#062d73',
+        secondary: '#2f2f30',
+        sub: '#747475',
+        white: '#ffffff',
+        placeholder: '#a3a3a3',
+        disabled: '#bababa',
+      },
+      backgroundColor: {
+        white: '#FFFFFF',
+        brand: '#3B82F6',
+        'brand-sub': '#0951c6',
+        'brand-hover': '#003d99',
+        'brand-active': '#062d73',
+        hover: '#e6f0ff',
+        active: '#cce0ff',
+        disabled: '#e8e8e8',
+      },
+      borderColor: {
+        brand: '#3B82F6',
+        'brand-sub': '#0951c6',
+        'brand-hover': '#003d99',
+        'brand-active': '#062d73',
+        grey: {
+          DEFAULT: '#d1d1d1',
+          1: '#e8e8e8',
+        },
+        red: '#DF082A',
+      },
+    },
+  },
+  plugins: [],
+}
