@@ -57,8 +57,7 @@ const FingerDiagram = ({
       if (!part) return null
 
       if (type === 'partImage') {
-        // Show part image only if the part is in selectedParts
-        if (selectedParts.includes(id!)) return part.partImage
+        if (id !== null && selectedParts.includes(id)) return part.partImage
       }
 
       if (type === 'textImage' && hoveredPart === id) {
