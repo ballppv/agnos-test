@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react'
+import { debounce } from 'lodash'
 import { FingerDataType } from 'utilities/mockUpData'
 
 interface FingerDiagramProps {
@@ -27,29 +28,38 @@ const FingerDiagram = ({
     localStorage.setItem('selectedFingerParts', JSON.stringify(selectedParts))
   }, [selectedParts])
 
-  useEffect(() => {
-    const updateDimensions = () => {
+  // Debounced version of the dimensions update function
+  const updateDimensions = useCallback(
+    debounce(() => {
       if (containerRef.current) {
         const { width, height } = containerRef.current.getBoundingClientRect()
         setDimensions({ width, height })
       }
-    }
-    updateDimensions()
+    }, 300), // Debounce delay in milliseconds
+    [],
+  )
+
+  useEffect(() => {
+    updateDimensions() // Initial call to set dimensions
     window.addEventListener('resize', updateDimensions)
     return () => window.removeEventListener('resize', updateDimensions)
-  }, [])
+  }, [updateDimensions])
 
-  const handleShapeClick = useCallback((id: number) => {
-    setSelectedParts((prevSelected) => {
-      if (id === 4) {
-        return [4]
-      } else {
-        return prevSelected.includes(id)
-          ? prevSelected.filter((partId) => partId !== id)
-          : [...prevSelected.filter((partId) => partId !== 4), id]
-      }
-    })
-  }, [])
+  // Debounced handle shape click
+  const handleShapeClick = useCallback(
+    debounce((id: number) => {
+      setSelectedParts((prevSelected) => {
+        if (id === 4) {
+          return [4]
+        } else {
+          return prevSelected.includes(id)
+            ? prevSelected.filter((partId) => partId !== id)
+            : [...prevSelected.filter((partId) => partId !== 4), id]
+        }
+      })
+    }, 200), // Debounce delay in milliseconds
+    [],
+  )
 
   const getImage = useCallback(
     (id: number | null, type: 'partImage' | 'textImage') => {
