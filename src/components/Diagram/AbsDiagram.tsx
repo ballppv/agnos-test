@@ -25,12 +25,22 @@ const SVGOverlay = React.memo(({ children }: { children: React.ReactNode }) => (
 
 const AbsDiagram = ({ data, baseImage }: AbsDiagramProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
-  const [selectedParts, setSelectedParts] = useState<number[]>([])
+
+  const initialSelectedParts = () => {
+    const savedParts = localStorage.getItem('selectedAbsParts')
+    return savedParts ? JSON.parse(savedParts) : []
+  }
+
+  const [selectedParts, setSelectedParts] = useState<number[]>(initialSelectedParts)
   const [hoveredPart, setHoveredPart] = useState<number | null>(null)
   const [dimensions, setDimensions] = useState<{ width: number; height: number }>({
     width: 600,
     height: 800,
   })
+
+  useEffect(() => {
+    localStorage.setItem('selectedAbsParts', JSON.stringify(selectedParts))
+  }, [selectedParts])
 
   const convertPercentageToAbsolute = useCallback(
     (path: string) =>
@@ -95,7 +105,6 @@ const AbsDiagram = ({ data, baseImage }: AbsDiagramProps) => {
             onMouseLeave={() => setHoveredPart(null)}
             onClick={() => handleShapeClick(part.id)}
             fill="transparent"
-            stroke="blue"
             cursor="pointer"
           />
         ) : (
@@ -108,7 +117,6 @@ const AbsDiagram = ({ data, baseImage }: AbsDiagramProps) => {
             onMouseLeave={() => setHoveredPart(null)}
             onClick={() => handleShapeClick(part.id)}
             fill="transparent"
-            stroke="blue"
             cursor="pointer"
           />
         ),
@@ -133,12 +141,12 @@ const AbsDiagram = ({ data, baseImage }: AbsDiagramProps) => {
         const partImage = getImage(part.id, 'partImage')
         const textImage = getImage(part.id, 'textImage')
         return (
-          <>
+          <React.Fragment key={part.id}>
             {partImage && <PartImage key={`${part.id}-part`} src={partImage} alt={part.part} />}
             {textImage && (
               <PartImage key={`${part.id}-text`} src={textImage} alt={`${part.part} text`} />
             )}
-          </>
+          </React.Fragment>
         )
       })}
 

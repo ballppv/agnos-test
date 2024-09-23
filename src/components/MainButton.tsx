@@ -8,6 +8,7 @@ interface MainButtonProps {
   href: string
   text: string
   styles?: string
+  disabled?: boolean
 }
 
 const classes = {
@@ -20,7 +21,7 @@ const classes = {
   ),
 }
 
-const MainButton = ({ href, text, styles }: MainButtonProps) => {
+const MainButton = ({ href, text, styles, disabled }: MainButtonProps) => {
   const navigate = useNavigate()
 
   const handleClick = () => {
@@ -28,7 +29,11 @@ const MainButton = ({ href, text, styles }: MainButtonProps) => {
   }
 
   return (
-    <ButtonBorder onClick={() => handleClick()} className={tw(classes.container, styles)}>
+    <ButtonBorder
+      onClick={() => handleClick()}
+      className={tw(classes.container, styles)}
+      disabled={disabled}
+    >
       <div>{text}</div>
     </ButtonBorder>
   )

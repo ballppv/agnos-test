@@ -4,17 +4,28 @@ import { FingerDataType } from 'utilities/mockUpData'
 interface FingerDiagramProps {
   data: FingerDataType[]
   baseImage: string
+  selectedParts: number[]
+  setSelectedParts: React.Dispatch<React.SetStateAction<number[]>>
 }
 
-const FingerDiagram = ({ data, baseImage }: FingerDiagramProps) => {
+const FingerDiagram = ({
+  data,
+  baseImage,
+  selectedParts,
+  setSelectedParts,
+}: FingerDiagramProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const svgRef = useRef<SVGSVGElement | null>(null)
-  const [selectedParts, setSelectedParts] = useState<number[]>([])
+
   const [hoveredPart, setHoveredPart] = useState<number | null>(null)
   const [dimensions, setDimensions] = useState<{ width: number; height: number }>({
     width: 600,
     height: 800,
   })
+
+  useEffect(() => {
+    localStorage.setItem('selectedFingerParts', JSON.stringify(selectedParts))
+  }, [selectedParts])
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -28,30 +39,32 @@ const FingerDiagram = ({ data, baseImage }: FingerDiagramProps) => {
     return () => window.removeEventListener('resize', updateDimensions)
   }, [])
 
-  const handleShapeClick = useCallback(
-    (id: number) => {
-      setSelectedParts((prevSelected) =>
-        id === 4
-          ? prevSelected.length === data.length - 1
-            ? []
-            : data.filter((part) => part.id !== 4).map((part) => part.id)
-          : prevSelected.includes(id)
-            ? prevSelected.filter((partId) => partId !== id)
-            : [...prevSelected, id],
-      )
-    },
-    [data],
-  )
+  const handleShapeClick = useCallback((id: number) => {
+    setSelectedParts((prevSelected) => {
+      if (id === 4) {
+        return [4]
+      } else {
+        return prevSelected.includes(id)
+          ? prevSelected.filter((partId) => partId !== id)
+          : [...prevSelected.filter((partId) => partId !== 4), id]
+      }
+    })
+  }, [])
 
   const getImage = useCallback(
     (id: number | null, type: 'partImage' | 'textImage') => {
       const part = data.find((p) => p.id === id)
       if (!part) return null
-      if (type === 'partImage' && id === 4 && selectedParts.length === data.length - 1) {
-        return part.partImage
+
+      if (type === 'partImage') {
+        // Show part image only if the part is in selectedParts
+        if (selectedParts.includes(id!)) return part.partImage
       }
-      if (type === 'partImage' && id !== null && selectedParts.includes(id)) return part.partImage
-      if (type === 'textImage' && hoveredPart === id) return part.textImage
+
+      if (type === 'textImage' && hoveredPart === id) {
+        return part.textImage
+      }
+
       return null
     },
     [data, selectedParts, hoveredPart],
@@ -84,7 +97,6 @@ const FingerDiagram = ({ data, baseImage }: FingerDiagramProps) => {
                 onMouseLeave={() => setHoveredPart(null)}
                 onClick={() => handleShapeClick(part.id)}
                 fill="transparent"
-                stroke="blue"
                 cursor="pointer"
               />
             )
@@ -102,7 +114,6 @@ const FingerDiagram = ({ data, baseImage }: FingerDiagramProps) => {
                 onMouseLeave={() => setHoveredPart(null)}
                 onClick={() => handleShapeClick(part.id)}
                 fill="transparent"
-                stroke="blue"
                 cursor="pointer"
               />
             )

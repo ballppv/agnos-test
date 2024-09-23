@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import MainButton from 'components/MainButton'
 import tw from 'utilities/tw'
 import defaultFinger from 'assets/images/finger/default-finger.png'
@@ -13,9 +13,33 @@ const classes = {
   title: tw(`text-center text-secondary text-sm md:text-lg lg:text-2xl`),
   fingerVD: tw(`self-center`),
   nextBtn: tw(`w-full max-w-none md:min-w-[100%] lg:min-w-[100%]`),
+  nextBtnDisabled: tw(
+    `w-full max-w-none md:min-w-[100%] lg:min-w-[100%] opacity-50 cursor-not-allowed`,
+  ),
 }
 
 const Finger = () => {
+  const initialSelectedParts = () => {
+    const savedParts = localStorage.getItem('selectedFingerParts')
+    return savedParts ? JSON.parse(savedParts) : []
+  }
+
+  const [selectedParts, setSelectedParts] = useState<number[]>(initialSelectedParts)
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true)
+
+  useEffect(() => {
+    const savedParts = localStorage.getItem('selectedFingerParts')
+    if (savedParts) {
+      setSelectedParts(JSON.parse(savedParts))
+    }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('selectedFingerParts', JSON.stringify(selectedParts))
+    setIsButtonDisabled(selectedParts.length === 0)
+  }, [selectedParts])
+
   return (
     <div className={classes.container}>
       <MainButton href="/abs" text="Back" />
@@ -24,11 +48,21 @@ const Finger = () => {
         <div className={classes.contentSection}>
           <div className={classes.title}>จุดไหนที่คุณปวดนิ้วมากที่สุด ?</div>
           <div className={classes.fingerVD}>
-            <FingerDiagram data={fingerData} baseImage={defaultFinger} />
+            <FingerDiagram
+              data={fingerData}
+              baseImage={defaultFinger}
+              selectedParts={selectedParts}
+              setSelectedParts={setSelectedParts}
+            />
           </div>
         </div>
 
-        <MainButton href="abs" text="ต่อไป" styles={classes.nextBtn} />
+        <MainButton
+          href="/summary"
+          text="ต่อไป"
+          styles={isButtonDisabled ? classes.nextBtnDisabled : classes.nextBtn}
+          disabled={isButtonDisabled}
+        />
       </div>
     </div>
   )
