@@ -39,12 +39,10 @@ const AbsDiagram = ({ data, baseImage }: AbsDiagramProps) => {
     height: 800,
   })
 
-  // Save selected parts in localStorage
   useEffect(() => {
     localStorage.setItem('selectedAbsParts', JSON.stringify(selectedParts))
   }, [selectedParts])
 
-  // Convert percentage to absolute values based on dimensions
   const convertPercentageToAbsolute = useCallback(
     (path: string) =>
       path
@@ -57,25 +55,22 @@ const AbsDiagram = ({ data, baseImage }: AbsDiagramProps) => {
     [dimensions],
   )
 
-  // Debounced update dimensions function
   const debouncedUpdateDimensions = useCallback(
     debounce(() => {
       if (containerRef.current) {
         const { width, height } = containerRef.current.getBoundingClientRect()
         setDimensions({ width, height })
       }
-    }, 300), // 300 ms debounce time
+    }, 300),
     [],
   )
 
-  // Handle resizing of the container
   useEffect(() => {
-    debouncedUpdateDimensions() // Initial call to set dimensions
+    debouncedUpdateDimensions()
     window.addEventListener('resize', debouncedUpdateDimensions)
     return () => window.removeEventListener('resize', debouncedUpdateDimensions)
   }, [debouncedUpdateDimensions])
 
-  // Handle shape click events
   const handleShapeClick = useCallback(
     (id: number) => {
       setSelectedParts((prev) =>
@@ -91,7 +86,6 @@ const AbsDiagram = ({ data, baseImage }: AbsDiagramProps) => {
     [data],
   )
 
-  // Retrieve the correct image based on part state
   const getImage = useCallback(
     (id: number | null, type: 'partImage' | 'textImage') => {
       const part = data.find((p) => p.id === id)
@@ -105,7 +99,6 @@ const AbsDiagram = ({ data, baseImage }: AbsDiagramProps) => {
     [data, selectedParts, hoveredPart],
   )
 
-  // Render shapes based on data
   const renderShapes = useMemo(
     () =>
       data.map((part) =>

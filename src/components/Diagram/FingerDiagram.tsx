@@ -28,24 +28,22 @@ const FingerDiagram = ({
     localStorage.setItem('selectedFingerParts', JSON.stringify(selectedParts))
   }, [selectedParts])
 
-  // Debounced version of the dimensions update function
   const updateDimensions = useCallback(
     debounce(() => {
       if (containerRef.current) {
         const { width, height } = containerRef.current.getBoundingClientRect()
         setDimensions({ width, height })
       }
-    }, 300), // Debounce delay in milliseconds
+    }, 300),
     [],
   )
 
   useEffect(() => {
-    updateDimensions() // Initial call to set dimensions
+    updateDimensions()
     window.addEventListener('resize', updateDimensions)
     return () => window.removeEventListener('resize', updateDimensions)
   }, [updateDimensions])
 
-  // Debounced handle shape click
   const handleShapeClick = useCallback(
     debounce((id: number) => {
       setSelectedParts((prevSelected) => {
@@ -57,7 +55,7 @@ const FingerDiagram = ({
             : [...prevSelected.filter((partId) => partId !== 4), id]
         }
       })
-    }, 200), // Debounce delay in milliseconds
+    }, 200),
     [],
   )
 
