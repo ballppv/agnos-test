@@ -18,7 +18,19 @@ body {
   width: 100%;
   max-width: 100%;
   margin: 0;
-  padding: 48px 120px;
+  padding: 12px 8px;
   font-weight: 400;
   font-family: 'Kanit', 'Kanit Black';
+
+  @media (min-width: 375px) {
+    padding: 20px 16px;
+  }
+
+  @media (min-width: 768px) {
+    padding: 32px 64px;
+  }
+
+  @media (min-width: 1024) {
+    padding: 48px 120px;
+  }
 }

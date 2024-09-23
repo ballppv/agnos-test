@@ -5,9 +5,10 @@ import tw from 'utilities/tw'
 import ButtonBorder from '../components/ButtonBorder'
 
 interface MainButtonProps {
-  href?: string
+  href: string
   text: string
   styles?: string
+  disabled?: boolean
 }
 
 const classes = {
@@ -20,17 +21,19 @@ const classes = {
   ),
 }
 
-const MainButton = ({ href, text, styles }: MainButtonProps) => {
+const MainButton = ({ href, text, styles, disabled }: MainButtonProps) => {
   const navigate = useNavigate()
 
   const handleClick = () => {
-    if (text === 'Back') return navigate('/')
-
-    navigate(`/${href}`)
+    navigate(href)
   }
 
   return (
-    <ButtonBorder onClick={() => handleClick()} className={tw(classes.container, styles)}>
+    <ButtonBorder
+      onClick={() => handleClick()}
+      className={tw(classes.container, styles)}
+      disabled={disabled}
+    >
       <div>{text}</div>
     </ButtonBorder>
   )
