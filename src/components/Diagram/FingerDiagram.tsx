@@ -1,15 +1,22 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react'
 import { FingerDataType } from 'utilities/mockUpData'
 
 interface FingerDiagramProps {
   data: FingerDataType[]
   baseImage: string
+  selectedParts: number[]
+  setSelectedParts: React.Dispatch<React.SetStateAction<number[]>>
 }
 
-const FingerDiagram = ({ data, baseImage }: FingerDiagramProps) => {
+const FingerDiagram = ({
+  data,
+  baseImage,
+  selectedParts,
+  setSelectedParts,
+}: FingerDiagramProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const svgRef = useRef<SVGSVGElement | null>(null)
-  const [selectedParts, setSelectedParts] = useState<number[]>([])
+
   const [hoveredPart, setHoveredPart] = useState<number | null>(null)
   const [dimensions, setDimensions] = useState<{ width: number; height: number }>({
     width: 600,
@@ -17,62 +24,106 @@ const FingerDiagram = ({ data, baseImage }: FingerDiagramProps) => {
   })
 
   useEffect(() => {
-    const handleResize = () => {
+    localStorage.setItem('selectedFingerParts', JSON.stringify(selectedParts))
+  }, [selectedParts])
+
+  useEffect(() => {
+    const updateDimensions = () => {
       if (containerRef.current) {
         const { width, height } = containerRef.current.getBoundingClientRect()
         setDimensions({ width, height })
       }
     }
-
-    handleResize()
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
+    updateDimensions()
+    window.addEventListener('resize', updateDimensions)
+    return () => window.removeEventListener('resize', updateDimensions)
   }, [])
 
-  const getPartImage = (id: number | null) => {
-    const part = data.find((p) => p.id === id)
-    if (!part) return null
-
-    if (id === 4 && selectedParts.length === data.length - 1) {
-      return part.partImage
-    }
-
-    if (id !== null && selectedParts.includes(id)) {
-      return part.partImage
-    }
-
-    return null
-  }
-
-  const getTextImage = (id: number | null) => {
-    const part = data.find((p) => p.id === id)
-    if (!part) return null
-
-    if (hoveredPart === id) {
-      return part.textImage
-    }
-
-    return null
-  }
-
-  const handleShapeClick = (id: number) => {
-    if (id === 4) {
-      if (selectedParts.length === data.length - 1) {
-        setSelectedParts([])
+  const handleShapeClick = useCallback((id: number) => {
+    setSelectedParts((prevSelected) => {
+      if (id === 4) {
+        return [4]
       } else {
-        setSelectedParts(data.filter((part) => part.id !== 4).map((part) => part.id))
-      }
-    } else {
-      setSelectedParts((prevSelected) =>
-        prevSelected.includes(id)
+        return prevSelected.includes(id)
           ? prevSelected.filter((partId) => partId !== id)
-          : [...prevSelected, id],
+          : [...prevSelected.filter((partId) => partId !== 4), id]
+      }
+    })
+  }, [])
+
+  const getImage = useCallback(
+    (id: number | null, type: 'partImage' | 'textImage') => {
+      const part = data.find((p) => p.id === id)
+      if (!part) return null
+
+      if (type === 'partImage') {
+        // Show part image only if the part is in selectedParts
+        if (selectedParts.includes(id!)) return part.partImage
+      }
+
+      if (type === 'textImage' && hoveredPart === id) {
+        return part.textImage
+      }
+
+      return null
+    },
+    [data, selectedParts, hoveredPart],
+  )
+
+  const convertPath = (path: string) =>
+    path
+      .replace(/(\d+(\.\d+)?)%/g, (_, p1) => `${(parseFloat(p1) / 100) * dimensions.width}`)
+      .replace(
+        /(\d+(\.\d+)?),(\d+(\.\d+)?)%/g,
+        (_, p1, _p2, p3) =>
+          `${(parseFloat(p1) / 100) * dimensions.width},${(parseFloat(p3) / 100) * dimensions.height}`,
       )
-    }
-  }
+
+  const renderShapes = useMemo(
+    () =>
+      data.map((part) =>
+        part.shapes.map((shape, index) => {
+          const { type, path, cx, cy, r } = shape
+          const isSelected = selectedParts.includes(part.id)
+          const isHovered = hoveredPart === part.id
+
+          if (type === 'polygon') {
+            return (
+              <path
+                key={`${part.id}-${index}`}
+                d={path ? convertPath(path) : ''}
+                className={`voronoi-cell ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}`}
+                onMouseEnter={() => setHoveredPart(part.id)}
+                onMouseLeave={() => setHoveredPart(null)}
+                onClick={() => handleShapeClick(part.id)}
+                fill="transparent"
+                cursor="pointer"
+              />
+            )
+          }
+
+          if (type === 'circle') {
+            return (
+              <circle
+                key={`${part.id}-${index}`}
+                cx={(parseFloat(cx ?? '0') / 100) * dimensions.width}
+                cy={(parseFloat(cy ?? '0') / 100) * dimensions.height}
+                r={(parseFloat(r ?? '0') / 100) * dimensions.width}
+                className={`voronoi-cell ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}`}
+                onMouseEnter={() => setHoveredPart(part.id)}
+                onMouseLeave={() => setHoveredPart(null)}
+                onClick={() => handleShapeClick(part.id)}
+                fill="transparent"
+                cursor="pointer"
+              />
+            )
+          }
+
+          return null
+        }),
+      ),
+    [data, dimensions, selectedParts, hoveredPart, handleShapeClick],
+  )
 
   return (
     <div
@@ -88,37 +139,25 @@ const FingerDiagram = ({ data, baseImage }: FingerDiagramProps) => {
       <img src={baseImage} alt="Base" style={{ width: '100%', height: '100%' }} />
 
       {data.map((part) => {
-        const partImage = getPartImage(part.id)
+        const partImage = getImage(part.id, 'partImage')
         return partImage ? (
           <img
             key={part.id}
             src={partImage}
             alt={part.part}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-            }}
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
           />
         ) : null
       })}
 
       {data.map((part) => {
-        const textImage = getTextImage(part.id)
+        const textImage = getImage(part.id, 'textImage')
         return textImage ? (
           <img
             key={part.id}
             src={textImage}
             alt={`${part.part} text`}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: '100%',
-              height: '100%',
-            }}
+            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
           />
         ) : null
       })}
@@ -129,59 +168,7 @@ const FingerDiagram = ({ data, baseImage }: FingerDiagramProps) => {
         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
         preserveAspectRatio="xMidYMid meet"
       >
-        {data.map((part) =>
-          part.shapes.map((shape, index) => {
-            if (shape.type === 'polygon') {
-              return (
-                <path
-                  key={`${part.id}-${index}`}
-                  d={
-                    shape.path
-                      ? shape.path
-                          .replace(
-                            /(\d+(\.\d+)?)%/g,
-                            (_, p1) => `${(parseFloat(p1) / 100) * dimensions.width}`,
-                          )
-                          .replace(
-                            /(\d+(\.\d+)?),(\d+(\.\d+)?)%/g,
-                            (_, p1, _p2, p3) =>
-                              `${(parseFloat(p1) / 100) * dimensions.width},${(parseFloat(p3) / 100) * dimensions.height}`,
-                          )
-                      : ''
-                  }
-                  className={`voronoi-cell ${
-                    selectedParts.includes(part.id) ? 'selected' : ''
-                  } ${hoveredPart === part.id ? 'hovered' : ''}`}
-                  onMouseEnter={() => setHoveredPart(part.id)}
-                  onMouseLeave={() => setHoveredPart(null)}
-                  onClick={() => handleShapeClick(part.id)}
-                  fill="transparent"
-                  cursor="pointer"
-                />
-              )
-            }
-
-            if (shape.type === 'circle') {
-              return (
-                <circle
-                  key={`${part.id}-${index}`}
-                  cx={(parseFloat(shape.cx ?? '0') / 100) * dimensions.width}
-                  cy={(parseFloat(shape.cy ?? '0') / 100) * dimensions.height}
-                  r={(parseFloat(shape.r ?? '0') / 100) * dimensions.width}
-                  className={`voronoi-cell ${
-                    selectedParts.includes(part.id) ? 'selected' : ''
-                  } ${hoveredPart === part.id ? 'hovered' : ''}`}
-                  onMouseEnter={() => setHoveredPart(part.id)}
-                  onMouseLeave={() => setHoveredPart(null)}
-                  onClick={() => handleShapeClick(part.id)}
-                  fill="transparent"
-                  cursor="pointer"
-                />
-              )
-            }
-            return null
-          }),
-        )}
+        {renderShapes}
       </svg>
     </div>
   )

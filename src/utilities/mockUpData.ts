@@ -244,7 +244,7 @@ export const fingerData: FingerDataType[] = [
   },
   {
     id: 4,
-    part: 'all',
+    part: 'others',
     partImage: otherHighlight,
     textImage: otherHighlight,
     shapes: [
