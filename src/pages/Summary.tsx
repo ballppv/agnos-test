@@ -28,8 +28,6 @@ const Summary = () => {
   const selectedAbsParts = localStorage.getItem('selectedAbsParts')
   const selectedFingerParts = localStorage.getItem('selectedFingerParts')
   const isEmptySelectedAbs = !selectedAbsParts || selectedAbsParts?.length === 0
-  console.log(selectedAbsParts)
-  console.log(selectedFingerParts)
 
   useEffect(() => {
     const selectedFingerParts = localStorage.getItem('selectedFingerParts')
