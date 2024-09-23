@@ -11,9 +11,9 @@ const classes = {
   contentSection: tw(`w-full p-6 md:p-8 lg:p-12 flex flex-col
     gap-3 lg:gap-5 border rounded-xl shadow-custom-1`),
   title: tw(`text-center text-secondary text-sm md:text-lg lg:text-2xl`),
-  summary: tw(`flex flex-col gap-3 text-gray-500`),
-  subSummary: tw(`flex gap-1 items-center text-sm md:text-lg lg:text-2xl flex-wrap`),
-  list: tw(`flex gap-1 items-center flex-wrap`),
+  summary: tw(`flex flex-col gap-4 text-gray-500`),
+  subSummary: tw(`flex gap-2 lg:gap-3 items-center text-sm md:text-lg lg:text-2xl flex-wrap`),
+  list: tw(`flex gap-2 lg:gap-3 items-center flex-wrap text-gray-400 font-light`),
   restartBtn: tw(`w-full max-w-none md:min-w-[100%] lg:min-w-[100%]
     h-6 md:h-10 lg:h-12 px-2 md:px-4 flex justify-center
     bg-white text-2xs md:text-sm lg:text-lg
