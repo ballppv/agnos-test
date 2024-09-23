@@ -24,10 +24,9 @@ const classes = {
 
 const Summary = () => {
   const navigate = useNavigate()
-  const [isNone, setIsNone] = useState(false)
+  const [noFingerPart, setNoFingerPart] = useState(false)
   const selectedAbsParts = localStorage.getItem('selectedAbsParts')
   const selectedFingerParts = localStorage.getItem('selectedFingerParts')
-  const isEmptySelectedAbs = !selectedAbsParts || selectedAbsParts?.length === 0
 
   useEffect(() => {
     const selectedFingerParts = localStorage.getItem('selectedFingerParts')
@@ -36,7 +35,7 @@ const Summary = () => {
     if (selectedFingerParts) {
       const fingerPartsArray = JSON.parse(selectedFingerParts)
       if (fingerPartsArray.includes(4)) {
-        setIsNone(true)
+        setNoFingerPart(true)
       }
     }
 
@@ -60,6 +59,8 @@ const Summary = () => {
     ? fingerData.filter((part) => parsedSelectedFingerParts.includes(part.id))
     : []
 
+  const noAbsPart = !parsedSelectedAbsParts || parsedSelectedAbsParts?.length === 0
+
   return (
     <div className={classes.container}>
       <MainButton href="/" text="Back" />
@@ -67,13 +68,13 @@ const Summary = () => {
       <div className={classes.subContainer}>
         <div className={classes.contentSection}>
           <div className={classes.title}>
-            {isNone && isEmptySelectedAbs ? 'ไม่ได้ระบุจุดที่ปวด' : 'จุดที่เลือกทั้งหมด'}
+            {noFingerPart && noAbsPart ? 'ไม่ได้ระบุจุดที่ปวด' : 'จุดที่เลือกทั้งหมด'}
           </div>
-          {isNone && isEmptySelectedAbs ? null : (
+          {noFingerPart && noAbsPart ? null : (
             <div className={classes.summary}>
               <div className={classes.subSummary}>
                 <div>จุดที่ปวดหน้าท้อง: </div>
-                {isEmptySelectedAbs ? (
+                {noAbsPart ? (
                   <div>-</div>
                 ) : (
                   <div className={classes.list}>
@@ -85,7 +86,7 @@ const Summary = () => {
               </div>
               <div className={classes.subSummary}>
                 <div>จุดที่ปวดนิ้วมือ: </div>
-                {isNone ? (
+                {noFingerPart ? (
                   <div>-</div>
                 ) : (
                   <div className={classes.list}>
